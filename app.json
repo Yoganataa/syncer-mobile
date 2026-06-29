@@ -3,11 +3,13 @@
     "name": "syncer-mobile",
     "slug": "syncer-mobile",
     "version": "1.0.0",
+    "newArchEnabled": true,
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.anonymous.syncermobile"
     },
     "android": {
       "adaptiveIcon": {
@@ -16,10 +18,21 @@
         "backgroundImage": "./assets/android-icon-background.png",
         "monochromeImage": "./assets/android-icon-monochrome.png"
       },
-      "predictiveBackGestureEnabled": false
+      "predictiveBackGestureEnabled": false,
+      "package": "com.anonymous.syncermobile"
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "plugins": [
+      "expo-image",
+      "expo-dev-client"
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "6cb9790e-e47d-472d-9498-f71f972dbe78"
+      }
+    },
+    "owner": "deyogans-team"
   }
 }
