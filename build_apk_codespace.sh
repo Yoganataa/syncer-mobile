@@ -8,13 +8,18 @@ echo " Persiapan Build APK di GitHub Codespaces"
 echo "========================================="
 
 # 1. Update dan Install Java 17 (Syarat wajib untuk React Native / Gradle modern)
-echo "[1/4] Menginstall Java 17..."
+echo "[1/5] Menginstall Java 17..."
 sudo apt-get update -qq
 sudo apt-get install -y openjdk-17-jdk-headless -qq > /dev/null
 export JAVA_HOME="/usr/lib/jvm/java-17-openjdk-amd64"
 
-# 2. Setup Android SDK
-echo "[2/4] Menyiapkan Android SDK..."
+# 2. Setup Node.js v20 (Sesuai kebutuhan Expo SDK 56)
+echo "[2/5] Menginstall Node.js v20..."
+curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash - > /dev/null
+sudo apt-get install -y nodejs -qq > /dev/null
+
+# 3. Setup Android SDK
+echo "[3/5] Menyiapkan Android SDK..."
 export ANDROID_HOME="$HOME/android-sdk"
 export PATH="$PATH:$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/platform-tools"
 
@@ -31,12 +36,13 @@ fi
 yes | sdkmanager --licenses > /dev/null
 sdkmanager "platform-tools" "platforms;android-34" "build-tools;34.0.0" > /dev/null
 
-# 3. Install NPM dependencies (jika belum)
-echo "[3/4] Menginstall NPM dependencies..."
-npm install > /dev/null
+# 4. Install NPM dependencies & Generate Android folder (Prebuild)
+echo "[4/5] Menginstall NPM dependencies dan Expo Prebuild..."
+npm install
+npx expo prebuild --platform android --no-install
 
-# 4. Build APK
-echo "[4/4] Memulai proses Build APK..."
+# 5. Build APK
+echo "[5/5] Memulai proses Build APK..."
 cd android
 chmod +x gradlew
 ./gradlew assembleRelease
